@@ -1,0 +1,504 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Roboto+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg0:#0A0A0A;--bg1:#141414;--bg2:#1C1C1C;--bg3:#252525;--bg4:#2E2E2E;
+  --border:#252525;--border2:#333;
+  --t1:#F0F0F0;--t2:#888;--t3:#444;
+  --red:#EF5350;--green:#66BB6A;--blue:#42A5F5;--amber:#FFA726;
+}
+body{font-family:'Roboto',sans-serif;background:var(--bg0);color:var(--t1);}
+.app{max-width:960px;margin:0 auto;padding:12px;}
+
+.top-bar{background:var(--bg1);border:1px solid var(--border);border-radius:8px 8px 0 0;padding:0 16px;height:52px;display:flex;align-items:center;gap:10px;}
+.heart{width:26px;height:26px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.heart svg{width:14px;height:14px;fill:#fff;}
+.top-title{font-size:17px;font-weight:500;flex:1;}
+.bt-btn{background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--t2);padding:5px 14px;font-size:12px;font-weight:500;font-family:'Roboto',sans-serif;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .2s;}
+.bt-btn:hover{background:var(--bg4);color:var(--t1);}
+.bt-btn.on{border-color:var(--green);color:var(--green);}
+.bt-dot{width:7px;height:7px;border-radius:50%;background:var(--t3);}
+.bt-dot.on{background:var(--green);animation:blink 1.8s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+.tabs-wrap{background:var(--bg1);border-left:1px solid var(--border);border-right:1px solid var(--border);}
+.tabs{display:flex;}
+.tab{flex:1;padding:13px;text-align:center;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;}
+.tab.active{color:var(--red);border-bottom-color:var(--red);}
+.tab:hover:not(.active){color:var(--t2);background:rgba(255,255,255,.02);}
+
+.src-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;}
+.sc{background:var(--bg1);border:1px solid var(--border);border-radius:6px;padding:14px 16px;position:relative;overflow:hidden;}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.sc.p::before{background:var(--red);}
+.sc.c::before{background:var(--green);}
+.sc.r::before{background:var(--blue);}
+.sc-lbl{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:6px;}
+.sc-val{font-size:32px;font-weight:300;font-family:'Roboto Mono',monospace;line-height:1;color:var(--t1);}
+.sc-val em{font-size:12px;font-style:normal;color:var(--t3);}
+.sc-sub{font-size:11px;color:var(--t3);margin-top:6px;display:flex;align-items:center;gap:5px;}
+.dot{width:6px;height:6px;border-radius:50%;}
+.dbadge{position:absolute;top:12px;right:12px;font-size:10px;font-family:'Roboto Mono',monospace;padding:2px 7px;border-radius:10px;font-weight:500;display:none;}
+.dbadge.pos{background:#1B2A1B;color:var(--green);}
+.dbadge.neg{background:#2A1B1B;color:var(--red);}
+
+.chart-card{background:var(--bg1);border:1px solid var(--border);border-radius:0 0 8px 8px;margin-top:10px;}
+
+.toolbar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.tsep{width:1px;height:22px;background:var(--border2);margin:0 2px;flex-shrink:0;}
+.tbtn{background:var(--bg2);border:1px solid var(--border2);border-radius:5px;color:var(--t2);padding:5px 9px;font-size:11px;font-family:'Roboto',sans-serif;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s;white-space:nowrap;}
+.tbtn:hover{background:var(--bg3);color:var(--t1);}
+.tbtn.on{background:#2A1414;border-color:var(--red);color:var(--red);}
+.tbtn svg{width:13px;height:13px;flex-shrink:0;}
+.mgroup{display:flex;border:1px solid var(--border2);border-radius:5px;overflow:hidden;}
+.mbtn{padding:5px 13px;font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;font-family:'Roboto',sans-serif;background:var(--bg2);border:none;border-right:1px solid var(--border2);color:var(--t3);cursor:pointer;transition:all .15s;}
+.mbtn:last-child{border-right:none;}
+.mbtn.on{background:#2A1414;color:var(--red);}
+.chips{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;}
+.chip{padding:4px 11px;border-radius:12px;font-size:11px;font-weight:500;font-family:'Roboto',sans-serif;cursor:pointer;border:1px solid transparent;transition:all .15s;}
+.chip.cr{background:#3E1F1F;border-color:#5A2020;color:var(--red);}
+.chip.cg{background:#1B2E1C;border-color:#1F3E20;color:var(--green);}
+.chip.cb{background:#1A2A3E;border-color:#1A3050;color:var(--blue);}
+.chip.off{background:var(--bg3);border-color:var(--border2);color:var(--t3);}
+
+.rrow{display:flex;gap:4px;align-items:center;padding:12px 16px 0;}
+.rlbl{font-size:10px;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-right:2px;}
+.rbtn{padding:3px 10px;font-size:11px;font-family:'Roboto',sans-serif;font-weight:500;border:1px solid var(--border2);border-radius:4px;background:var(--bg2);color:var(--t3);cursor:pointer;transition:all .15s;}
+.rbtn:hover{color:var(--t1);}
+.rbtn.on{background:#2A1414;border-color:var(--red);color:var(--red);}
+
+.chart-wrap{padding:12px 16px 4px;}
+
+.legend-row{display:flex;gap:14px;padding:4px 16px 10px;flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--t2);}
+.leg-line{width:18px;height:2px;border-radius:1px;}
+
+.stats-panel{display:none;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 12px;}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 12px;text-align:center;}
+.stat-lbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.stat-val{font-size:18px;font-weight:300;font-family:'Roboto Mono',monospace;}
+.stat-val.r{color:var(--red);}
+.stat-val.g{color:var(--green);}
+.stat-val.b{color:var(--blue);}
+.stat-val.a{color:var(--amber);}
+
+.tbl-wrap{display:none;padding:0 16px 14px;}
+.dtbl{width:100%;border-collapse:collapse;font-size:12px;font-family:'Roboto Mono',monospace;}
+.dtbl th{background:var(--bg2);color:var(--t3);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:7px 10px;border-bottom:1px solid var(--border2);text-align:right;}
+.dtbl th:first-child{text-align:left;}
+.dtbl td{padding:5px 10px;border-bottom:1px solid var(--border);text-align:right;color:var(--t2);}
+.dtbl td:first-child{text-align:left;color:var(--t3);}
+.dtbl tr:last-child td{border-bottom:none;}
+.vr{color:var(--red)!important;}
+.vg{color:var(--green)!important;}
+.vb{color:var(--blue)!important;}
+.vp{color:var(--green)!important;}
+.vn{color:var(--red)!important;}
+</style>
+
+<div class="app">
+<div class="top-bar">
+  <div class="heart"><svg viewBox="0 0 24 24"><path d="M12 21.6C6.4 16 1 11.3 1 7.2 1 3.4 4.1 2 6.3 2c1.3 0 4.2.5 5.7 4.5C13.6 2.5 16.5 2 17.7 2 20.3 2 23 3.6 23 7.2c0 4.1-5.1 8.6-11 14.4z"/></svg></div>
+  <span class="top-title">HR Monitor</span>
+  <button class="bt-btn" id="btBtn" onclick="toggleBt()">
+    <div class="bt-dot" id="btDot"></div>
+    <span id="btLbl">Polar H10</span>
+  </button>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" id="td" onclick="swDrv('driver')">&#9632; Driver</div>
+    <div class="tab" id="tc" onclick="swDrv('codriver')">&#9633; Co-Driver</div>
+  </div>
+</div>
+
+<div class="src-row">
+  <div class="sc p">
+    <div class="sc-lbl">Polar H10 — Ref.</div>
+    <div class="sc-val" id="vp">-- <em>bpm</em></div>
+    <div class="sc-sub"><div class="dot" id="dp" style="background:var(--t3)"></div><span id="sp">Nepripojený</span></div>
+  </div>
+  <div class="sc c">
+    <div class="sc-lbl">Kamera rPPG</div>
+    <div class="sc-val" id="vc">-- <em>bpm</em></div>
+    <div class="sc-sub"><div class="dot" style="background:var(--green)"></div><span style="color:var(--t3)">Simulácia</span></div>
+    <div class="dbadge" id="dbc"></div>
+  </div>
+  <div class="sc r">
+    <div class="sc-lbl">Radar UWB</div>
+    <div class="sc-val" id="vr">-- <em>bpm</em></div>
+    <div class="sc-sub"><div class="dot" style="background:var(--blue)"></div><span style="color:var(--t3)">Simulácia</span></div>
+    <div class="dbadge" id="dbr"></div>
+  </div>
+</div>
+
+<div class="chart-card">
+  <div class="toolbar">
+    <div class="mgroup">
+      <button class="mbtn on" id="mb-bpm" onclick="setMode('bpm')">BPM</button>
+      <button class="mbtn" id="mb-delta" onclick="setMode('delta')">Δ Delta</button>
+    </div>
+    <div class="tsep"></div>
+    <button class="tbtn" id="tb-cross" onclick="toggleTool('cross')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm8.9 3A9 9 0 0 0 13 3.1V1h-2v2.1A9 9 0 0 0 3.1 11H1v2h2.1A9 9 0 0 0 11 20.9V23h2v-2.1A9 9 0 0 0 20.9 13H23v-2h-2.1z"/></svg>
+      Crosshair
+    </button>
+    <button class="tbtn" id="tb-smooth" onclick="toggleTool('smooth')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 19h19v2h-19zm7.18-5.73 4.35 1.16 5.31-14.47-.96-.35-4 10.89-4.35-1.16-5.31 14.47.96.35z"/></svg>
+      Smooth
+    </button>
+    <button class="tbtn" id="tb-fill" onclick="toggleTool('fill')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.56 8.94 7.62 0 6.21 1.41l2.38 2.38-5.15 5.15a1.49 1.49 0 0 0 0 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10 10 5.21 14.79 10H5.21zM19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5z"/></svg>
+      Fill
+    </button>
+    <div class="tsep"></div>
+    <button class="tbtn" id="tb-stats" onclick="togglePanel('stats')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.9 0 3.5 1.6 3.5 3.5S13.9 13 12 13s-3.5-1.6-3.5-3.5S10.1 6 12 6zm7 13H5v-.2c0-.6.3-1.2.8-1.6C7.5 15.8 9.6 15 12 15s4.5.8 6.2 2.2c.5.4.8 1 .8 1.6V19z"/></svg>
+      Štatistiky
+    </button>
+    <button class="tbtn" id="tb-table" onclick="togglePanel('table')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h2V3c-1.1 0-2 .9-2 2zm0 8h2v-2H3v2zm4 8h2v-2H7v2zM3 9h2V7H3v2zm10-6h-2v2h2V3zm6 0v2h2c0-1.1-.9-2-2-2zM5 21v-2H3c0 1.1.9 2 2 2zm-2-4h2v-2H3v2zM9 3H7v2h2V3zm2 18h2v-2h-2v2zm8-8h2v-2h-2v2zm0 8c1.1 0 2-.9 2-2h-2v2zm0-12h2V7h-2v2zm0 8h2v-2h-2v2zm-4 4h2v-2h-2v2zm0-16h2V3h-2v2z"/></svg>
+      Tabuľka
+    </button>
+    <button class="tbtn" onclick="doExport()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      CSV
+    </button>
+    <button class="tbtn" onclick="doClear()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+      Reset
+    </button>
+    <div class="chips">
+      <div class="chip cr" id="chip-p" onclick="toggleChip('p')">Polar</div>
+      <div class="chip cg" id="chip-c" onclick="toggleChip('c')">Kamera</div>
+      <div class="chip cb" id="chip-r" onclick="toggleChip('r')">Radar</div>
+    </div>
+  </div>
+
+  <div class="rrow">
+    <span class="rlbl">Rozsah:</span>
+    <button class="rbtn on" id="rng-30" onclick="setRng(30)">30s</button>
+    <button class="rbtn" id="rng-60" onclick="setRng(60)">1 min</button>
+    <button class="rbtn" id="rng-120" onclick="setRng(120)">2 min</button>
+    <button class="rbtn" id="rng-300" onclick="setRng(300)">5 min</button>
+  </div>
+
+  <div class="chart-wrap">
+    <div style="position:relative;width:100%;height:250px;">
+      <canvas id="hrC"></canvas>
+    </div>
+  </div>
+
+  <div class="legend-row" id="legRow"></div>
+
+  <div class="stats-panel" id="statsPanel">
+    <div class="stat"><div class="stat-lbl">Avg Polar</div><div class="stat-val r" id="sa-pavg">--</div></div>
+    <div class="stat"><div class="stat-lbl">Max Polar</div><div class="stat-val r" id="sa-pmax">--</div></div>
+    <div class="stat"><div class="stat-lbl">Min Polar</div><div class="stat-val a" id="sa-pmin">--</div></div>
+    <div class="stat"><div class="stat-lbl">Vzorky</div><div class="stat-val" id="sa-n">--</div></div>
+    <div class="stat"><div class="stat-lbl">Avg Kamera</div><div class="stat-val g" id="sa-cavg">--</div></div>
+    <div class="stat"><div class="stat-lbl">Δ Cam RMSE</div><div class="stat-val a" id="sa-crmse">--</div></div>
+    <div class="stat"><div class="stat-lbl">Avg Radar</div><div class="stat-val b" id="sa-ravg">--</div></div>
+    <div class="stat"><div class="stat-lbl">Δ Rad RMSE</div><div class="stat-val a" id="sa-rrmse">--</div></div>
+  </div>
+
+  <div class="tbl-wrap" id="tblWrap">
+    <table class="dtbl">
+      <thead><tr><th>Čas</th><th>Polar</th><th>Kamera</th><th>Radar</th><th>Δ Kam</th><th>Δ Rad</th></tr></thead>
+      <tbody id="tblBody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const MAX=300;
+let btOn=false, mode='bpm', rng=30, drv='driver';
+let chips={p:true,c:true,r:true};
+let tools={cross:false,smooth:false,fill:false};
+let panels={stats:false,table:false};
+let myChart=null;
+
+const DB={
+  driver:{lbl:[],p:[],c:[],r:[]},
+  codriver:{lbl:[],p:[],c:[],r:[]}
+};
+const ST={
+  driver:{p:75,c:77,r:73},
+  codriver:{p:80,c:82,r:79}
+};
+const COL={p:'#EF5350',c:'#66BB6A',r:'#42A5F5'};
+const NAM={p:'Polar H10',c:'Kamera',r:'Radar'};
+
+function rnd(v,n){return Math.max(40,Math.min(210,v+(Math.random()-.5)*n));}
+
+function swDrv(d){
+  drv=d;
+  document.getElementById('td').classList.toggle('active',d==='driver');
+  document.getElementById('tc').classList.toggle('active',d==='codriver');
+  redraw();
+}
+
+function toggleBt(){
+  if(!btOn){
+    document.getElementById('btLbl').textContent='Pripájam...';
+    setTimeout(()=>{
+      btOn=true;
+      document.getElementById('btDot').classList.add('on');
+      document.getElementById('btBtn').classList.add('on');
+      document.getElementById('btLbl').textContent='H10 Online';
+      document.getElementById('dp').style.background='var(--green)';
+      document.getElementById('sp').textContent='BLE aktívne';
+    },1500);
+  } else {
+    btOn=false;
+    document.getElementById('btDot').classList.remove('on');
+    document.getElementById('btBtn').classList.remove('on');
+    document.getElementById('btLbl').textContent='Polar H10';
+    document.getElementById('dp').style.background='var(--t3)';
+    document.getElementById('sp').textContent='Nepripojený';
+  }
+}
+
+function toggleChip(k){
+  chips[k]=!chips[k];
+  const e=document.getElementById('chip-'+k);
+  const m={p:'cr',c:'cg',r:'cb'};
+  e.className='chip '+(chips[k]?m[k]:'off');
+  redraw();
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mb-bpm').classList.toggle('on',m==='bpm');
+  document.getElementById('mb-delta').classList.toggle('on',m==='delta');
+  redraw();
+}
+
+function setRng(n){
+  rng=n;
+  [30,60,120,300].forEach(x=>document.getElementById('rng-'+x).classList.toggle('on',x===n));
+  redraw();
+}
+
+function toggleTool(k){
+  tools[k]=!tools[k];
+  document.getElementById('tb-'+k).classList.toggle('on',tools[k]);
+  redraw();
+}
+
+function togglePanel(k){
+  panels[k]=!panels[k];
+  document.getElementById('tb-'+k).classList.toggle('on',panels[k]);
+  if(k==='stats'){
+    document.getElementById('statsPanel').style.display=panels[k]?'grid':'none';
+    if(panels[k])calcStats();
+  }
+  if(k==='table'){
+    document.getElementById('tblWrap').style.display=panels[k]?'block':'none';
+    if(panels[k])buildTable();
+  }
+}
+
+function doClear(){
+  const d=DB[drv];
+  d.lbl=[];d.p=[];d.c=[];d.r=[];
+  redraw();
+}
+
+function doExport(){
+  const d=DB[drv];
+  let s='Cas,Polar,Kamera,Radar,DeltaKam,DeltaRad\n';
+  d.lbl.forEach((t,i)=>{
+    const dk=d.p[i]!=null?(d.c[i]-d.p[i]).toFixed(1):'';
+    const dr=d.p[i]!=null?(d.r[i]-d.p[i]).toFixed(1):'';
+    s+=`${t},${d.p[i]},${d.c[i]},${d.r[i]},${dk},${dr}\n`;
+  });
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(s);
+  a.download='hr_'+drv+'.csv';a.click();
+}
+
+function getSlice(){
+  const d=DB[drv];
+  const n=d.lbl.length;
+  const from=Math.max(0,n-rng);
+  return{
+    lbl:d.lbl.slice(from),
+    p:d.p.slice(from),
+    c:d.c.slice(from),
+    r:d.r.slice(from)
+  };
+}
+
+function buildDatasets(){
+  const s=getSlice();
+  const sets=[];
+  const keys=mode==='bpm'?['p','c','r']:['c','r'];
+  keys.forEach(k=>{
+    if(!chips[k])return;
+    const raw=s[k];
+    const data=mode==='delta'
+      ? raw.map((v,i)=>s.p[i]!=null?parseFloat((v-s.p[i]).toFixed(1)):null)
+      : raw.map(v=>v);
+    sets.push({
+      label:NAM[k],
+      data:data,
+      borderColor:COL[k],
+      backgroundColor:tools.fill?COL[k]+'25':'rgba(0,0,0,0)',
+      borderWidth:1.8,
+      pointRadius:tools.cross?3:0,
+      pointHoverRadius:5,
+      pointBackgroundColor:COL[k],
+      tension:tools.smooth?0.5:0.25,
+      fill:tools.fill?'origin':false
+    });
+  });
+  return{sets,lbl:s.lbl};
+}
+
+function buildLegend(){
+  const d=DB[drv];
+  const row=document.getElementById('legRow');
+  row.innerHTML='';
+  const keys=mode==='bpm'?['p','c','r']:['c','r'];
+  keys.filter(k=>chips[k]).forEach(k=>{
+    const last=d[k].length?d[k][d[k].length-1]:null;
+    row.innerHTML+=`<div class="leg"><div class="leg-line" style="background:${COL[k]}"></div>${NAM[k]}${last?' — '+last+' bpm':''}</div>`;
+  });
+}
+
+function calcStats(){
+  const d=DB[drv];
+  if(!d.p.length)return;
+  const avg=a=>a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(0):'--';
+  const rmse=(a,b)=>{
+    const pairs=a.map((v,i)=>[v,b[i]]).filter(([x,y])=>x!=null&&y!=null);
+    if(!pairs.length)return '--';
+    return Math.sqrt(pairs.reduce((s,[x,y])=>s+(x-y)**2,0)/pairs.length).toFixed(1);
+  };
+  document.getElementById('sa-pavg').textContent=avg(d.p);
+  document.getElementById('sa-pmax').textContent=Math.max(...d.p);
+  document.getElementById('sa-pmin').textContent=Math.min(...d.p);
+  document.getElementById('sa-n').textContent=d.p.length;
+  document.getElementById('sa-cavg').textContent=avg(d.c);
+  document.getElementById('sa-ravg').textContent=avg(d.r);
+  document.getElementById('sa-crmse').textContent=rmse(d.p,d.c);
+  document.getElementById('sa-rrmse').textContent=rmse(d.p,d.r);
+}
+
+function buildTable(){
+  const d=DB[drv];
+  const n=Math.min(20,d.lbl.length);
+  let html='';
+  for(let i=d.lbl.length-1;i>=d.lbl.length-n;i--){
+    const dk=d.p[i]!=null?(d.c[i]-d.p[i]):null;
+    const dr=d.p[i]!=null?(d.r[i]-d.p[i]):null;
+    const fc=v=>v>0?'vp':v<0?'vn':'';
+    html+=`<tr>
+      <td>${d.lbl[i]}</td>
+      <td class="vr">${d.p[i]??'--'}</td>
+      <td class="vg">${d.c[i]??'--'}</td>
+      <td class="vb">${d.r[i]??'--'}</td>
+      <td class="${fc(dk)}">${dk!=null?(dk>=0?'+':'')+dk.toFixed(1):'--'}</td>
+      <td class="${fc(dr)}">${dr!=null?(dr>=0?'+':'')+dr.toFixed(1):'--'}</td>
+    </tr>`;
+  }
+  document.getElementById('tblBody').innerHTML=html;
+}
+
+function updateBadges(){
+  const d=DB[drv];
+  if(!d.p.length)return;
+  const lp=d.p[d.p.length-1];
+  ['c','r'].forEach(k=>{
+    const el=document.getElementById('db'+k);
+    const lv=d[k][d[k].length-1];
+    if(lv==null||lp==null){el.style.display='none';return;}
+    const delta=lv-lp;
+    el.textContent=(delta>=0?'+':'')+delta.toFixed(1)+' Δ';
+    el.className='dbadge '+(delta>=0?'pos':'neg');
+    el.style.display='block';
+  });
+}
+
+function redraw(){
+  if(!myChart)return;
+  const {sets,lbl}=buildDatasets();
+  myChart.data.labels=lbl;
+  myChart.data.datasets=sets;
+  myChart.update('none');
+  buildLegend();
+  if(panels.stats)calcStats();
+  if(panels.table)buildTable();
+  updateBadges();
+}
+
+function tick(){
+  const now=new Date();
+  const ts=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')+':'+now.getSeconds().toString().padStart(2,'0');
+  ['driver','codriver'].forEach(d=>{
+    const s=ST[d];
+    s.p=rnd(s.p,btOn&&d===drv?4:2);
+    s.c=rnd(s.c,5);
+    s.r=rnd(s.r,4);
+    const db=DB[d];
+    db.lbl.push(ts);
+    db.p.push(Math.round(s.p));
+    db.c.push(Math.round(s.c));
+    db.r.push(Math.round(s.r));
+    if(db.lbl.length>MAX){db.lbl.shift();db.p.shift();db.c.shift();db.r.shift();}
+  });
+  const cs=ST[drv];
+  document.getElementById('vp').innerHTML=(btOn?Math.round(cs.p):'--')+' <em>bpm</em>';
+  document.getElementById('vc').innerHTML=Math.round(cs.c)+' <em>bpm</em>';
+  document.getElementById('vr').innerHTML=Math.round(cs.r)+' <em>bpm</em>';
+  redraw();
+}
+
+function init(){
+  if(typeof Chart==='undefined'){setTimeout(init,100);return;}
+  const ctx=document.getElementById('hrC').getContext('2d');
+  myChart=new Chart(ctx,{
+    type:'line',
+    data:{labels:[],datasets:[]},
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      animation:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          mode:'index',intersect:false,
+          backgroundColor:'#1E1E1E',borderColor:'#333',borderWidth:1,
+          titleColor:'#888',bodyColor:'#F0F0F0',padding:10,
+          titleFont:{family:'Roboto',size:11},
+          bodyFont:{family:"'Roboto Mono',monospace",size:12},
+          callbacks:{
+            label:ctx=>`  ${ctx.dataset.label}: ${ctx.parsed.y!=null?ctx.parsed.y.toFixed(1):'--'}${mode==='delta'?' Δbpm':' bpm'}`
+          }
+        }
+      },
+      interaction:{mode:'index',intersect:false},
+      scales:{
+        x:{
+          ticks:{color:'#444',font:{size:10},maxTicksLimit:8,maxRotation:0},
+          grid:{color:'#1A1A1A'},border:{color:'#252525'}
+        },
+        y:{
+          title:{display:true,text:'BPM',color:'#444',font:{size:10}},
+          ticks:{color:'#444',font:{size:10,family:"'Roboto Mono',monospace"}},
+          grid:{color:'#1A1A1A'},border:{color:'#252525'}
+        }
+      }
+    }
+  });
+  setInterval(tick,1000);
+  tick();
+}
+
+init();
+</script>
